@@ -31,8 +31,22 @@ export const admin = {
   role: "admin",
 };
 
+// ---------- Pretend course ----------
+export function makeCourse(overrides = {}) {
+  return {
+    id: 1,
+    title: "Python Basics",
+    description: "Variables, loops and functions.",
+    teacher: teacher.id,
+    teacher_name: "Ada Lovelace",
+    enrollment_count: 3,
+    is_enrolled: false,
+    created_at: "2026-11-01T10:00:00Z",
+    ...overrides,
+  };
+}
+
 // ---------- Pretend auth ----------
-// Same shape as AuthContext's value, but nothing talks to a server.
 export function fakeAuth(overrides = {}) {
   return {
     user: null,
@@ -51,9 +65,6 @@ function LocationDisplay() {
 }
 
 // ---------- Render a page ----------
-// user:  who's logged in (default: nobody)
-// route: the URL to start at (default: "/")
-// path:  a route pattern like "/courses/:id", for pages that use useParams
 export function renderWithProviders(ui, { user = null, auth, route = "/", path } = {}) {
   const authValue = auth ?? fakeAuth({ user });
 
@@ -77,8 +88,6 @@ export function renderWithProviders(ui, { user = null, auth, route = "/", path }
 }
 
 // ---------- Pretend backend ----------
-// Pass { "METHOD /path/": { status, body } }, for example:
-// mockApi({ "GET /courses/": { body: [course] } })
 export function mockApi(routes) {
   return vi.spyOn(globalThis, "fetch").mockImplementation(async (url, options = {}) => {
     const method = options.method ?? "GET";
@@ -89,10 +98,22 @@ export function mockApi(routes) {
       throw new Error(`No mock for ${key}`);
     }
 
-    const { status = 200, body = null } = routes[key];
+    const response = typeof routes[key] === "function" ? routes[key]() : routes[key];
+    const { status = 200, body = null } = response;
     return new Response(status === 204 ? null : JSON.stringify(body), {
       status,
       headers: { "Content-Type": "application/json" },
     });
   });
+}
+
+// Returns the JSON body of every request sent to METHOD /path/.
+export function requestsTo(fetchMock, method, path) {
+  return fetchMock.mock.calls
+    .filter(([url, options = {}]) => {
+      const sameMethod = (options.method ?? "GET") === method;
+      const samePath = new URL(url).pathname.replace(/^\/api/, "") === path;
+      return sameMethod && samePath;
+    })
+    .map(([, options = {}]) => (options.body ? JSON.parse(options.body) : null));
 }

@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import RequireAuth from "../components/RequireAuth";
 import { admin, fakeAuth, renderWithProviders, student } from "./helpers";
 
-// A stand-in login page that shows where RequireAuth sent us from.
 function LoginStub() {
   const location = useLocation();
   return <p>Login page (from {location.state?.from?.pathname})</p>;
