@@ -383,3 +383,24 @@ a {
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
 }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat p {
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.dashboard-section {
+  margin-top: 2rem;
+}
