@@ -22,19 +22,27 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Any logged-in user */}
-        <Route path="/dashboard" element={<RequireAuth><DashboardPage /></RequireAuth>} />
-        <Route path="/courses" element={<RequireAuth><CoursesPage /></RequireAuth>} />
-        <Route path="/courses/:id" element={<RequireAuth><CourseDetailPage /></RequireAuth>} />
+        <Route element={<RequireAuth />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseDetailPage />} />
+        </Route>
 
         {/* Teachers and admins */}
-        <Route path="/courses/new" element={<RequireAuth roles={['teacher', 'admin']}><CourseFormPage /></RequireAuth>} />
-        <Route path="/courses/:id/edit" element={<RequireAuth roles={['teacher', 'admin']}><CourseFormPage /></RequireAuth>} />
+        <Route element={<RequireAuth roles={['teacher', 'admin']} />}>
+          <Route path="/courses/new" element={<CourseFormPage />} />
+          <Route path="/courses/:id/edit" element={<CourseFormPage />} />
+        </Route>
 
         {/* Students only */}
-        <Route path="/my-courses" element={<RequireAuth roles={['student']}><MyCoursesPage /></RequireAuth>} />
+        <Route element={<RequireAuth roles={['student']} />}>
+          <Route path="/my-courses" element={<MyCoursesPage />} />
+        </Route>
 
         {/* Admins only */}
-        <Route path="/users" element={<RequireAuth roles={['admin']}><UsersPage /></RequireAuth>} />
+        <Route element={<RequireAuth roles={['admin']} />}>
+          <Route path="/users" element={<UsersPage />} />
+        </Route>
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>
