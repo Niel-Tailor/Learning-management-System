@@ -4,12 +4,6 @@ A full-stack web app where students browse and enrol in courses, teachers create
 their own courses, and admins manage everyone. Built with a **Django REST Framework** API
 and a **React** frontend.
 
-**Live site:** https://YOUR-SITE.netlify.app
-**API:** https://YOUR-SERVICE.onrender.com/api/
-
-> The backend runs on Render's free plan, so it sleeps when nobody is using it. The first
-> request after a break can take up to a minute.
-
 ## Contents
 
 - [Features](#features)
