@@ -1,0 +1,16 @@
+cat > netlify.toml <<'EOF'
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Send every page URL to index.html, so React Router can handle it.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+EOF
+cat netlify.toml
