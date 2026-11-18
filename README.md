@@ -4,6 +4,10 @@ A full-stack web app where students browse and enrol in courses, teachers create
 their own courses, and admins manage everyone. Built with a **Django REST Framework** API
 and a **React** frontend.
 
+**Live site:** https://lms-nt.netlify.app
+**API:** https://learning-management-system-1ig6.onrender.com/api/
+The API is on Render's free plan, so the first request after a quiet spell can take up to a minute while the server wakes up.
+
 ## Contents
 
 - [Features](#features)
